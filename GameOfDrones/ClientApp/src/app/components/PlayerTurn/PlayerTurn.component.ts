@@ -1,23 +1,24 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { PlayerTurn } from './shared/PlayerTurn.model';
-import { PlayerTurnService } from './shared/PlayerTurn.service';
+import { Round } from './shared/Round.model';
+import { GameService } from '../NewGame/shared/Game.service';
 
 @Component({
 	moduleId: module.id,
 	selector: 'PlayerTurn',
 	templateUrl: 'PlayerTurn.component.html',
-	providers: [PlayerTurnService]
+	providers: [GameService]
 })
 
 export class PlayerTurnComponent implements OnInit {
-	PlayerTurn: PlayerTurn[] = [];
+	@Input() Round: Round ;
 	@Input() Player: string;
-	constructor(private PlayerTurnService: PlayerTurnService) { }
+	constructor() { }
 
-	ngOnInit() {
-		this.PlayerTurnService.getList().subscribe((res) => {
-			this.PlayerTurn = res;
-		});
+	ngOnInit() {}
+
+	round()
+	{
+
 	}
 }

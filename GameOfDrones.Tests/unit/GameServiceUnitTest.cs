@@ -48,19 +48,21 @@ namespace GameOfDrones.Tests
                                                 Tuple.Create("Scissor","Paper"),
                                                 Tuple.Create("Paper","Rock")
                                                 };
-            var game = Builder<Game>.CreateNew().With(g => g.GameWinner = "").Build();
+            var champion = "PlayerOne";                                    
+            var game = Builder<Game>.CreateNew()
+                                    .With(g => g.PlayerOneName = champion)
+                                    .Build();
             
             var svc = new GameService();
-            var champion = "";
+            
             foreach (var round in rounds)
             {
                 var gameRound = new Round() { PlayerOneChoice = round.Item1, 
                                             PlayerTwoChoice = round.Item2 } ;
                 game.Rounds.Add(gameRound);
-                var res = svc.ExecuteRound(game);
-                var executedRound = res.Rounds.Last();
+                game = svc.ExecuteRound(game);
+                var executedRound = game.Rounds.Last();
                 Assert.AreEqual(gameRound.PlayerOneChoice, executedRound.PlayerOneChoice);
-                champion = res.GameWinner;
             }
             Assert.AreEqual(champion, game.PlayerOneName);
         }
@@ -72,9 +74,12 @@ namespace GameOfDrones.Tests
                                                 Tuple.Create("Scissor","Paper"),
                                                 Tuple.Create("Paper","Rock")
                                                 };
-            var game = Builder<Game>.CreateNew().Build();
+            var champion = "PlayerTwo";                                    
+            var game = Builder<Game>.CreateNew()
+                                    .With(g => g.PlayerTwoName = champion)
+                                    .Build();
             var svc = new GameService();
-            string champion = "";
+            
             foreach (var round in rounds)
             {
                 var gameRound = new Round() { PlayerTwoChoice = round.Item1, 
@@ -83,7 +88,6 @@ namespace GameOfDrones.Tests
                 var res = svc.ExecuteRound(game);
                 var executedRound = res.Rounds.Last();
                 Assert.AreEqual(gameRound.PlayerTwoChoice, executedRound.PlayerTwoChoice);
-                champion = res.GameWinner;
             }
             Assert.AreEqual(champion, game.PlayerTwoName);
         }
