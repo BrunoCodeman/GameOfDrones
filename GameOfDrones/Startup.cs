@@ -16,7 +16,7 @@ namespace GameOfDrones
     public class Startup
     {
         private const string CONNSTRING = @"Server=172.17.0.2,1433;
-                                Database=gameofdrones,32768;
+                                Database=gameofdrones;
                                 User Id=sa;
                                 Password=root#123;";
         public Startup(IConfiguration configuration)

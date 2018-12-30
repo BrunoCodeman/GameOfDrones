@@ -7,7 +7,7 @@ namespace GameOfDrones.Models
     public class GameOfDronesDbContext : DbContext
     {
         private const string CONNSTRING = @"Server=172.17.0.2,1433;
-                                Database=gameofdrones,32768;
+                                Database=gameofdrones;
                                 User Id=sa;
                                 Password=root#123;";
         
