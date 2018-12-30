@@ -27,14 +27,14 @@ namespace GameOfDrones.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<Game> PostGame([FromBody]Game game)
+        public async Task<Game> PostGame([FromBody][FromForm]Game game)
         {
             return await this.dataService.Create(game);
         }
 
 
         [HttpPut("[action]")]
-        public async Task<Game> PutGame([FromBody]Game game)
+        public async Task<Game> PutGame([FromBody][FromForm]Game game)
         {
             var res = this.gameService.ExecuteRound(game);
             return await this.dataService.Update(res);

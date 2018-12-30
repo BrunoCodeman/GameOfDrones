@@ -29,7 +29,13 @@ namespace GameOfDrones
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options => options.AddPolicy("Cors", builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    }));
             services.AddSingleton<IDataService<Game>>(ds => new DataService<Game>());
             services.AddSingleton<IGameService>(gs => new GameService());
             services.AddDbContext<GameOfDronesDbContext>
@@ -60,14 +66,14 @@ namespace GameOfDrones
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            app.UseCors("Cors");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
+            
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,

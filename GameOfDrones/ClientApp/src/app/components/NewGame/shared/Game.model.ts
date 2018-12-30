@@ -1,11 +1,11 @@
-import { Round } from "../../PlayerTurn/shared/Round.model";
+import { Round } from "../../Round/shared/Round.model";
 
 
-export interface Game
+export class Game
 {
-     Id:number;
-     PlayerOneName:string;
-     PlayerTwoName:string 
-     Rounds:Array<Round>;
-     GameWinner:string 
+     id:number;
+     playerOneName:string;
+     playerTwoName:string 
+     rounds:Array<Round>;
+     gameWinner:string 
 }
