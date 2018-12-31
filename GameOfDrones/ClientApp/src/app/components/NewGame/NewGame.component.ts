@@ -29,7 +29,7 @@ export class NewGameComponent implements OnInit {
 	{
 		//this.actualGame.Rounds.
 		this.gameService.newGame(this.actualGame).subscribe((res) => {
-			this.router.navigate(["round"],{ queryParams: { gameId: res.id, player: "One" } });
+			this.router.navigate(["round"], { queryParams: { gameId: res.id, player: res.playerOneName } });
 		 });
 		
 	}

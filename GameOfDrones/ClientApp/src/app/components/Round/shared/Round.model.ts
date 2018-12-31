@@ -1,7 +1,7 @@
-export interface Round 
+export class Round 
 {
-    Id:number
-    PlayerOneChoice:string 
-    PlayerTwoChoice:string 
-    RoundWinner:string 
+    id:number
+    playerOneChoice:string 
+    playerTwoChoice:string 
+    roundWinner:string 
 }

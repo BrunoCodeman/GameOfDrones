@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace GameOfDrones
 {
@@ -36,11 +37,15 @@ namespace GameOfDrones
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                     }));
-            services.AddSingleton<IDataService<Game>>(ds => new DataService<Game>());
+            services.AddSingleton<IDataService<Game>>(ds => new GameDataService());
             services.AddSingleton<IGameService>(gs => new GameService());
             services.AddDbContext<GameOfDronesDbContext>
                     (options => options.UseSqlServer(CONNSTRING));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(options => {
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    });;    
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

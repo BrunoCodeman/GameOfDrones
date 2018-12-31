@@ -7,7 +7,7 @@ namespace GameOfDrones.Models.Entities
     public class Game 
     {
 
-        public Game() => this.Rounds = new List<Round>();
+        public Game() => this.Rounds = new List<Round>(){};
         public int Id { get; set; }
         public string PlayerOneName { get; set; }
         public string PlayerTwoName { get; set; }

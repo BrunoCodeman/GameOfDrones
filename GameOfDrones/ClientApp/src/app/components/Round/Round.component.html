@@ -1,13 +1,19 @@
 <div class="container">
-    <h1>Player's choice</h1>
-    <div class="form-group">
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary">Rock</button>
-            <button type="button" class="btn btn-secondary">Paper</button>
-            <button type="button" class="btn btn-secondary">Scissor</button>
+    <h1 >{{ player }}'s turn</h1>
+    <form>
+        <div class="form-group">
+            <div class="row">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" name="Rock" (click)="choose($event)" class="btn btn-secondary">Rock</button>
+                    <button type="button" name="Paper" (click)="choose($event)" class="btn btn-secondary">Paper</button>
+                    <button type="button" name="Scissor" (click)="choose($event)" class="btn btn-secondary">Scissor</button>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <button class="btn btn-primary" (click)="next()">Next</button>
+            </div>                
         </div>
-        <div class="form-control">
-            <button class="btn btn-primary"></button>
-        </div>                
-    </div>
+    </form>
+    
 </div>

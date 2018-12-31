@@ -6,6 +6,10 @@ namespace GameOfDrones.Models
 {
     public class GameOfDronesDbContext : DbContext
     {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Game>().HasMany(g => g.Rounds).WithOne(r => r.Game);
+        }
         private const string CONNSTRING = @"Server=172.17.0.2,1433;
                                 Database=gameofdrones;
                                 User Id=sa;

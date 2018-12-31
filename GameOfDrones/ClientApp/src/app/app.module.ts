@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { NewGameComponent } from './components/NewGame/NewGame.component';
 import { HttpModule } from '@angular/http';
 import { RoundComponent } from './components/Round/Round.component';
+import { ScoresComponent } from './components/Scores/Scores.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RoundComponent } from './components/Round/Round.component';
     CounterComponent,
     FetchDataComponent,
     NewGameComponent,
-    RoundComponent
+    RoundComponent,
+    ScoresComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,9 +31,10 @@ import { RoundComponent } from './components/Round/Round.component';
     HttpModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'newGame', component: NewGameComponent},
+      { path: '', redirectTo:"newgame", pathMatch: 'full' },
+      { path: 'newgame', component: NewGameComponent},
       { path: 'round', component: RoundComponent},
+      { path: 'scores', component: ScoresComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])

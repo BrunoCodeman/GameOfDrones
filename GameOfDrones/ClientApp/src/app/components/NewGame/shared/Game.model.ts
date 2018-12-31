@@ -6,6 +6,6 @@ export class Game
      id:number;
      playerOneName:string;
      playerTwoName:string 
-     rounds:Array<Round>;
+     rounds:Array<Round> = new Array<Round>();
      gameWinner:string 
 }

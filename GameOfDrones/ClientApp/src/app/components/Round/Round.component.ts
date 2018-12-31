@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-
+import { Component, OnInit, Input, Inject, NgZone } from '@angular/core';
 import { Round } from './shared/Round.model';
 import { GameService } from '../NewGame/shared/Game.service';
 import { Game } from '../NewGame/shared/Game.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { EventEmitter } from 'events';
 
 @Component({
 	moduleId: module.id,
@@ -11,24 +12,78 @@ import { ActivatedRoute } from '@angular/router';
 	templateUrl: 'Round.component.html',
 	providers: [GameService]
 })
-
 export class RoundComponent implements OnInit {
-	@Input() runningGame: Game ;
-	player: string;
-	constructor(private route: ActivatedRoute, private service: GameService) { }
+	runningGame: Game = new Game();
+	bet: string;
+	player:string
 
-	ngOnInit() {
+	constructor(private zone:NgZone, private routerNavigation: Router, private route: ActivatedRoute, 
+					private service: GameService) 
+	{	
+
+
 		this.route.queryParams.subscribe(params => {
 		
-	    	this.player = params["player"];
-		  console.log(params);
-		  this.service.get(params['gameId']).subscribe(res => this.runningGame = res);
-		  
-		})
+			this.runningGame.id = params['gameId'];
+			this.zone.run(() => { 
+				this.player = params['player'];
+				console.log("player updated");
+				});
+			
+
+			this.service.get(this.runningGame.id)
+			.subscribe(res => {
+				this.runningGame = res[0] as Game;
+  			},error =>console.log(error),() =>console.log("completed service"));
+	  
+		
+	  },error =>console.error(error),() =>console.log("completed params"));
 	}
 
-	round()
+	ngOnInit() {
+		console.log("onInit" + Math.random());
+		}
+		
+		
+	choose($event)
 	{
-		this.service.executeRound(this.runningGame).subscribe(res => this.runningGame = res);
+		this.bet = $event.srcElement.name;
 	}
+
+	next()
+	{
+		var i = this.runningGame.rounds.length;
+		if(this.player === this.runningGame.playerTwoName)
+		{
+			this.runningGame.rounds[i-1].playerTwoChoice = this.bet;
+			console.log(this.runningGame.rounds);
+			this.nextRound();
+		}
+		this.runningGame.rounds.push({id:0, playerOneChoice: ""} as Round);				
+		this.runningGame.rounds[i].playerOneChoice = this.bet;
+		this.player = this.runningGame.playerTwoName;
+	
+		
+	}
+	nextRound()
+	{
+		let destination = this.runningGame.rounds.length == 3? 
+		{ 
+			route:["scores"], 
+			params: { queryParams: { gameId: this.runningGame.id }}
+		}:
+		{ 
+			route:["round"], 
+			params: { queryParams: { gameId: this.runningGame.id, player: this.runningGame.playerOneName }}
+		};
+
+		this.service.executeRound(this.runningGame as Game).subscribe(res => 
+		{
+			console.log(res);
+			
+			this.routerNavigation.navigate(destination.route, destination.params);
+		});
+	}
+	
+	
 }

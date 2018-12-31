@@ -8,7 +8,7 @@ namespace GameOfDrones.Models.DataServices
     public class DataService<T> : IDataService<T> where T : class
     {
 
-        private GameOfDronesDbContext GetContext() => new GameOfDronesDbContext();
+        protected GameOfDronesDbContext GetContext() => new GameOfDronesDbContext();
 
         public async Task<T> Create(T entity)
         {
