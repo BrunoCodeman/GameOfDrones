@@ -26,15 +26,14 @@ export class RoundComponent implements OnInit {
 		
 			this.runningGame.id = params['gameId'];
 			this.player = params['player'];
-			
+
 			this.service.get(this.runningGame.id)
 			.subscribe(res => {
 				this.runningGame = res[0] as Game;
-  			},error =>console.log(error),() =>console.log("completed service"));
+  			});
 	  
 		
-	  },error =>console.error(error),() =>console.log("completed params"));
-		console.log("onInit" + Math.random());
+	  });
 		}
 		
 		
