@@ -3,7 +3,6 @@ import { Round } from './shared/Round.model';
 import { GameService } from '../NewGame/shared/Game.service';
 import { Game } from '../NewGame/shared/Game.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
 
 
 @Component({
@@ -15,23 +14,22 @@ import { Subject } from 'rxjs';
 export class RoundComponent implements OnInit {
 	runningGame: Game = new Game();
 	bet: string;
-	@Input() player: string;
+	player: string;
 
 	constructor(private routerNavigation: Router, private route: ActivatedRoute, 
 					private service: GameService) 
 	{	
-		console.log("building" + Math.random());
 	}
 
 	ngOnInit() {
 		this.route.queryParams.subscribe(params => {
 		
 			this.runningGame.id = params['gameId'];
+			this.player = params['player'];
 			
 			this.service.get(this.runningGame.id)
 			.subscribe(res => {
 				this.runningGame = res[0] as Game;
-				this.player = params['player'];
   			},error =>console.log(error),() =>console.log("completed service"));
 	  
 		
@@ -69,7 +67,11 @@ export class RoundComponent implements OnInit {
 		}:
 		{ 
 			route:["round"], 
-			params: { queryParams: { gameId: this.runningGame.id, player: this.runningGame.playerOneName }}
+			params: { queryParams: { 
+									gameId: this.runningGame.id, 
+									 player: this.runningGame.playerOneName,
+									 round: this.runningGame.rounds.length+1
+									}}
 		};
 
 		this.service.executeRound(this.runningGame as Game).subscribe(res => 

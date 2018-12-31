@@ -24,7 +24,7 @@ import { ScoresComponent } from './components/Scores/Scores.component';
     RouterModule.forRoot([
       { path: '', redirectTo:"newgame", pathMatch: 'full' },
       { path: 'newgame', component: NewGameComponent},
-      { path: 'round', component: RoundComponent},
+      { path: 'round', component: RoundComponent,runGuardsAndResolvers: 'always',},
       { path: 'scores', component: ScoresComponent},
     ], {onSameUrlNavigation: 'reload'})
   ],
