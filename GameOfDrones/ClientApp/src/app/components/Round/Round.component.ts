@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Inject, NgZone } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Round } from './shared/Round.model';
 import { GameService } from '../NewGame/shared/Game.service';
 import { Game } from '../NewGame/shared/Game.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { EventEmitter } from 'events';
+import { Subject } from 'rxjs';
+
 
 @Component({
 	moduleId: module.id,
@@ -15,32 +15,27 @@ import { EventEmitter } from 'events';
 export class RoundComponent implements OnInit {
 	runningGame: Game = new Game();
 	bet: string;
-	player:string
+	@Input() player: string;
 
-	constructor(private zone:NgZone, private routerNavigation: Router, private route: ActivatedRoute, 
+	constructor(private routerNavigation: Router, private route: ActivatedRoute, 
 					private service: GameService) 
 	{	
+		console.log("building" + Math.random());
+	}
 
-
+	ngOnInit() {
 		this.route.queryParams.subscribe(params => {
 		
 			this.runningGame.id = params['gameId'];
-			this.zone.run(() => { 
-				this.player = params['player'];
-				console.log("player updated");
-				});
 			
-
 			this.service.get(this.runningGame.id)
 			.subscribe(res => {
 				this.runningGame = res[0] as Game;
+				this.player = params['player'];
   			},error =>console.log(error),() =>console.log("completed service"));
 	  
 		
 	  },error =>console.error(error),() =>console.log("completed params"));
-	}
-
-	ngOnInit() {
 		console.log("onInit" + Math.random());
 		}
 		
